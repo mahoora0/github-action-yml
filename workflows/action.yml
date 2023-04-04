@@ -1,1 +1,27 @@
-
+name: 'custom github action'
+description: 'a githuvaction'
+inputs:
+  num:
+  description: 'enter a number'
+  required: true
+  default: "1"
+outputs:
+  num_suqred:
+    description: 'squre of the input'
+    value: ${{ stemps.get-suqre.outputs.num_squred}}
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Python
+      uses: actions/setup-python@v3.1.3
+     - name: Install Dependaencies
+     run: pip install -r requirements.txt
+     shell: bash
+     num: Pass Inputs to shell
+     run:
+      echo "INPUT_NUM=${{ inputs. num}} " >> $ GITBUB_ENV
+     shell: bash
+     name: Fetch the number's square
+     id: get-square
+     run: python src/get_num_square.py
+     shell: bash
