@@ -18,5 +18,3 @@ jobs:
           num: 11
       - name: Print the square
         run: echo "${{ steps.get_square.outputs.num_squared }}"
-      - name: Run local action
-        uses: ./.github/actions/my-action
