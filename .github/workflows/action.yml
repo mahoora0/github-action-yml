@@ -5,7 +5,6 @@ on:
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
-    description: 'A Github Actions that takes an input and returns the square of the number'
     inputs:
       num:
         description: 'Enter a number'
@@ -15,9 +14,8 @@ on:
       num_squared:
         description: 'Square of the input'
 jobs:
-  runs-on:
-    using: 'composite'
-    steps:
+  runs-on: ubuntu-latest  # Specify the type of runner here
+  steps:
     - name: Install python
       uses: actions/setup-python@v4
       with:
