@@ -38,3 +38,4 @@ jobs:
           echo "::set-output name=num_squared::${{ steps.get-square.outputs.num_squared }}"
         env:
           num_squared: ${{ steps.get-square.outputs.num_squared }}
+          
