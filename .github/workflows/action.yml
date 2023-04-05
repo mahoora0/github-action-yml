@@ -1,9 +1,11 @@
-name: 'action.yml'
+name: 'My Workflow'
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       num:
@@ -14,26 +16,25 @@ on:
       num_squared:
         description: 'Square of the input'
 jobs:
-  runs-on: ubuntu-latest  # Specify the type of runner here
-  steps:
-    - name: Install python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-    - name: Install Dependencies
-      run: pip install -r requirements.txt
-      shell: bash
-    - name: Pass Inputs to Shell
-      run: |
-        echo "INPUT_NUM=${{ inputs.num }}" >> $GITHUB_ENV
-      shell: bash
-    - name: Fetch the number's square
-      id: get-square
-      run: python src/get_num_square.py
-      shell: bash
-    - name: Set Outputs
-      run: |
-        echo "::set-output name=num_squared::${{ steps.get-square.outputs.num_squared }}"
-      shell: bash
-      env:
-        num_squared: ${{ steps.get-square.outputs.num_squared }}
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+      - name: Pass Inputs to Shell
+        run: |
+          echo "INPUT_NUM=${{ inputs.num }}" >> $GITHUB_ENV
+      - name: Fetch the number's square
+        id: get-square
+        run: python src/get_num_square.py
+      - name: Set Outputs
+        run: |
+          echo "::set-output name=num_squared::${{ steps.get-square.outputs.num_squared }}"
+        env:
+          num_squared: ${{ steps.get-square.outputs.num_squared }}
