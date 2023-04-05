@@ -15,7 +15,7 @@ on:
       num_squared:
         description: 'Square of the input'
 jobs:
-  runs:
+  runs-on:
     using: 'composite'
     steps:
     - name: Install python
