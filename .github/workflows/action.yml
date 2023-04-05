@@ -9,7 +9,6 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-jobs:  
   description: 'A Github Actions that takes an input and returns the square of the number'
     inputs:
       num:
@@ -21,6 +20,7 @@ outputs:
     description: 'Square of the input'
     #need to specify the extra 'value' field for 'composite' actions
     value: ${{ steps.get-square.outputs.num_squared}}
+jobs:
 runs:
   using: 'composite'
   steps:
