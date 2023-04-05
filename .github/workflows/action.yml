@@ -1,41 +1,41 @@
-#action.yaml
 name: 'action.yml'
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-  description: 'A Github Actions that takes an input and returns the square of the number'
+    description: 'A Github Actions that takes an input and returns the square of the number'
     inputs:
       num:
-      description: 'Enter a number'
-      required: true
-      default: "1"
-outputs:
-  num_squared:
-    description: 'Square of the input'
-    #need to specify the extra 'value' field for 'composite' actions
-    value: ${{ steps.get-square.outputs.num_squared}}
+        description: 'Enter a number'
+        required: true
+        default: "1"
+    outputs:
+      num_squared:
+        description: 'Square of the input'
 jobs:
-runs:
-  using: 'composite'
-  steps:
-  - name: Install python
-    uses: actions/setup-python@v4
-    with:
-      python-version: '3.10'
-  - name: Install Dependencies
-    run: pip install -r requirements.txt
-    shell: bash
-  - name: Pass Inputs to Shell
-    run: |
-      echo "INPUT_NUM=${{ inputs.num}} >> $GITHUB_ENV
-    shell: bash
-  - name: Fetch the number's square
-    id: get-square
-    run: python src/get_num_square.py
-    shell: bash
+  runs:
+    using: 'composite'
+    steps:
+    - name: Install python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Install Dependencies
+      run: pip install -r requirements.txt
+      shell: bash
+    - name: Pass Inputs to Shell
+      run: |
+        echo "INPUT_NUM=${{ inputs.num }}" >> $GITHUB_ENV
+      shell: bash
+    - name: Fetch the number's square
+      id: get-square
+      run: python src/get_num_square.py
+      shell: bash
+    - name: Set Outputs
+      run: |
+        echo "::set-output name=num_squared::${{ steps.get-square.outputs.num_squared }}"
+      shell: bash
+      env:
+        num_squared: ${{ steps.get-square.outputs.num_squared }}
